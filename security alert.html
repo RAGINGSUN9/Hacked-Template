@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SECURITY ALERT — Unauthorized Access Detected</title>
+    <meta name="description" content="Ethical Security Simulation — For Authorized Use Only">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Glitch overlay for realism */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                linear-gradient(rgba(0, 255, 0, 0.03) 50%, transparent 50%),
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(10, 255, 40, 0.05),
+                    rgba(10, 255, 40, 0.05) 1px,
+                    transparent 1px,
+                    transparent 2px
+                );
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Header with pulse */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            animation: pulse 4s infinite;
+        }
+
+        .alert-title {
+            font-size: 2.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin: 20px 0;
+            text-shadow: 
+                0 0 5px #0f0,
+                0 0 10px #0a0,
+                0 0 15px #080;
+            position: relative;
+        }
+
+        .alert-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #0f0, transparent);
+        }
+
+        /* Terminal-style log */
+        .terminal {
+            background: rgba(0, 10, 0, 0.7);
+            border: 1px solid #0a0;
+            border-radius: 4px;
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+            font-size: 16px;
+            line-height: 1.6;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .log-line {
+            margin: 8px 0;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .log-line:nth-child(1) { animation-delay: 0.2s; }
+        .log-line:nth-child(2) { animation-delay: 0.8s; }
+        .log-line:nth-child(3) { animation-delay: 1.4s; }
+        .log-line:nth-child(4) { animation-delay: 2.1s; }
+        .log-line:nth-child(5) { animation-delay: 2.9s; }
+        .log-line:nth-child(6) { animation-delay: 3.6s; }
+        .log-line:nth-child(7) { animation-delay: 4.2s; }
+        .log-line:nth-child(8) { animation-delay: 5.0s; }
+
+        .highlight {
+            color: #ff0;
+            font-weight: bold;
+        }
+
+        .ip {
+            color: #0af;
+        }
+
+        /* Pulse heartbeat effect */
+        .heartbeat {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #f00;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        /* Typing effect for final message */
+        .final-message {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-top: 20px;
+            opacity: 0;
+        }
+
+        .typing {
+            display: inline-block;
+            border-right: 2px solid #0f0;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: 
+                type 3.5s steps(40, end) 5.5s forwards,
+                blink 0.7s step-end 9s infinite;
+        }
+
+        /* Recovery button (for authorized demo only) */
+        .recovery {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            background: transparent;
+            color: #0f0;
+            border: 1px solid #0a0;
+            padding: 12px 30px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #0a0;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes type {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .alert-title { font-size: 2rem; }
+            .terminal { font-size: 14px; }
+            .typing { font-size: 1.3rem; }
+        }
+
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.01ms !important; }
+            .typing { border-right: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="alert-title">⚠️ SECURITY INCIDENT DETECTED</div>
+        </div>
+
+        <div class="terminal" id="log">
+            <div class="log-line">[<span class="heartbeat"></span>] SYSTEM: Monitoring active...</div>
+            <div class="log-line">[✓] Network scan initiated — 10.0.2.15 (Internal)</div>
+            <div class="log-line">[!] Anomaly detected: Unexpected SSH tunnel on port 2222</div>
+            <div class="log-line">[✓] Geolocation: Frankfurt, DE (AS24940 — Hetzner Online GmbH)</div>
+            <div class="log-line">[✓] Session established — <span class="ip">45.132.xxx.xxx</span></div>
+            <div class="log-line">[!] <span class="highlight">VULNERABILITY EXPLOITED:</span> CVE-2023-1234 (Apache Log4j RCE)</div>
+            <div class="log-line">[✓] Credentials harvested — 3 accounts (hashed)</div>
+            <div class="log-line">[✓] Persistence achieved — Scheduled task <span class="highlight">"SysMonitor"</span> installed</div>
+        </div>
+
+        <div class="final-message">
+            <span class="typing">This is a SECURITY SIMULATION for authorized testing only.</span>
+        </div>
+
+        <div class="recovery">
+            <button class="btn" onclick="simulateRecovery()">✓ Initiate Recovery Protocol</button>
+        </div>
+    </div>
+
+    <script>
+        // Simulate recovery (for demo/training)
+        function simulateRecovery() {
+            const btn = document.querySelector('.btn');
+            btn.disabled = true;
+            btn.textContent = 'Executing...';
+
+            setTimeout(() => {
+                alert('✅ Recovery Simulation Complete!\n\n- Malicious task removed\n- Logs sanitized\n- System hardened\n\nThis was a controlled ethical test.');
+                btn.textContent = '✓ Recovery Successful';
+                btn.style.backgroundColor = '#0a0';
+            }, 2000);
+        }
+
+        // Optional: Add subtle terminal cursor blink to first log line
+        document.addEventListener('DOMContentLoaded', () => {
+            const log = document.getElementById('log');
+            const observer = new MutationObserver(() => {
+                // Could add more dynamic behavior here
+            });
+            observer.observe(log, { childList: true, subtree: true });
+        });
+    </script>
+</body>
+</html>
